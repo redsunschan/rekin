@@ -11,6 +11,7 @@ class debugger {
 "<div class=\"debug_info\">
 	<h4>Rekin Debug [ INFO ]</h4>
 	<p>".$msg."</p>
+	<p>Time : ".date ( "Y/m/d H:m:s" )."</p>
 </div>
 ";
 		}
@@ -19,35 +20,102 @@ class debugger {
 	public static function notice ( $errstr , $errfile , $errline ) {
 		echo
 "<div class=\"debug_notice\">
-	<h4>Rekin Debug [ NOTICE ] ( From : ".$errfile." [  ] )</h4>
-	
+	<h4>Rekin Debug [ NOTICE ] ( From : ".$errfile." [ Line : ".$errline." ] )</h4>
+	<p>".$errstr."</p>
+	<p>Time : ".date ( "Y/m/d H:m:s" )."</p>
 </div>
 ";
 	}
 
 	public static function warn ( $errstr , $errfile , $errline ) {
-
+		echo
+"<div class=\"debug_notice\">
+	<h4>Rekin Debug [ WARNING ] ( From : ".$errfile." [ Line : ".$errline." ] )</h4>
+	<p>".$errstr."</p>
+	<p>Time : ".date ( "Y/m/d H:m:s" )."</p>
+</div>
+";
 	}
 
 	public static function error ( $errstr , $errfile , $errline ) {
-
+		echo
+"<div class=\"debug_notice\">
+	<h4>Rekin Debug [ ERROR ] ( From : ".$errfile." [ Line : ".$errline." ] )</h4>
+	<p>".$errstr."</p>
+	<p>Time : ".date ( "Y/m/d H:m:s" )."</p>
+</div>
+";
 	}
 
 	private static function writeIn ( $errno , $errstr , $errfile , $errline ) {
-		$logfile = "Rekin_Log_".date ( "Y_m_d" ).".txt";
+		$logfile = rekin::$path->log."Rekin_Log_".date ( "Y_m_d" ).".txt";
 		$content = null;
 		switch ( $errno ) {
 			case E_NOTICE:
+				$content =
+"#==================================================================================
+# Rekin Debugger [ NOTICE ]
+#==================================================================================
+# Message : ".$errstr."
+# From : ".$errfile." ( Line : ".$errline." )
+# Time : ".date ( "Y/m/d H:m:s" )."
+#==================================================================================
+";
 				break;
 			case E_USER_NOTICE:
+				$content =
+"#==================================================================================
+# Rekin Debugger [ NOTICE ]
+#==================================================================================
+# Message : ".$errstr."
+# From : ".$errfile." ( Line : ".$errline." )
+# Time : ".date ( "Y/m/d H:m:s" )."
+#==================================================================================
+";
 				break;
-			case E__WARNING:
+			case E_WARNING:
+				$content =
+"***********************************************************************************
+* Rekin Debugger [ WARNING ]
+***********************************************************************************
+* Message : ".$errstr."
+* From : ".$errfile." ( Line : ".$errline." )
+* Time : ".date ( "Y/m/d H:m:s" )."
+***********************************************************************************
+";
 				break;
 			case E_USER_WARNING:
+				$content =
+"***********************************************************************************
+* Rekin Debugger [ WARNING ]
+***********************************************************************************
+* Message : ".$errstr."
+* From : ".$errfile." ( Line : ".$errline." )
+* Time : ".date ( "Y/m/d H:m:s" )."
+***********************************************************************************
+";
 				break;
 			case E_ERROR:
+				$content =
+"###################################################################################
+# Rekin Debugger [ ERROR ]
+###################################################################################
+# Message : ".$errstr."
+# From : ".$errfile." ( Line : ".$errline." )
+# Time : ".date ( "Y/m/d H:m:s" )."
+###################################################################################
+";
 				break;
 			case E_USER_ERROR:
+				$content =
+"###################################################################################
+# Rekin Debugger [ ERROR ]
+###################################################################################
+# Message : ".$errstr."
+# From : ".$errfile." ( Line : ".$errline." )
+# Time : ".date ( "Y/m/d H:m:s" )."
+###################################################################################
+";
 				break;
 		}
 		if ( ! file_exists ( $logfile ) ) {
@@ -77,7 +145,7 @@ class debugger {
 				static::warn ( $errstr , $errfile , $errline );
 				break;
 			default:
-
+				static::info ( $errfile." [ Line : ".$errline." ] " , $errstr );
 				break;
 		}
 		static::writeIn ( $errno , $errstr , $errfile , $errline);

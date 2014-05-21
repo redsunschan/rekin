@@ -9,7 +9,7 @@ abstract class object {
 		return get_called_class ( );
 	}
 
-	public final static function getInstance ( ) {
+	public static function getInstance ( ) {
 		if ( empty ( static::$instance ) ) {
 			$n = get_called_class ( );
 			static::$instance = new $n ( );

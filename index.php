@@ -2,6 +2,8 @@
 use rekin\core\rekin;
 require "rekin/initializer.php";
 
-rekin::init ( );
-echo rekin::$cache->usedMemory ( );
+echo rekin::$cache->memoryInfo ( );
 
+$query = "action=hi";
+
+$set = explode ( "&" , $query );

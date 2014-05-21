@@ -3,11 +3,18 @@ namespace rekin\core;
 
 use rekin\api\register;
 use rekin\api\hashmap;
+use rekin\debugger;
 
 class config extends register {
 
-	public function __construct ( ) {
+	private $map;
+
+	private function __construct ( ) {
 		$this->map = new hashmap ( );
+	}
+
+	public function loadFile ( $file ) {
+		$this->loadFromSet ( require rekin::$path->config.$file );
 	}
 
 	public function loadFromSet ( $set ) {
@@ -16,22 +23,27 @@ class config extends register {
 			foreach ( $temp as $item ) {
 				$this->add ( array_search ( $item , $temp ) , $item );
 			}
+		} elseif ( is_array ( $set ) ) {
+			foreach ( $set as $item ) {
+				$this->add ( array_search ( $item , $set ) , $item );
+			}
 		}
 	}
 
 	public function add ( $key , $value ) {
 		$this->map->put ( $key , $value );
+		debugger::info ( $this->tag ( ) , "Added Config ".$key." [ Value : ".$this->map->get ( $key )." ]" );
 	}
 
 	public function get ( $key ) {
 		if ( $this->map->containKey ( $key ) ) {
-			$this->map->get ( $key );
+			return $this->map->get ( $key );
 		}
 	}
 
 	public function remove ( $key ) {
 		if ( $this->map->containKey ( $key ) ) {
-			$this->map->remove ( $key );
+			return $this->map->remove ( $key );
 		}
 	}
 
@@ -53,5 +65,12 @@ class config extends register {
 		return $this->map->count ( );
 	}
 
+	public final static function getInstance ( ) {
+		if ( ! static::$instance instanceof config ) {
+			$n = get_called_class ( );
+			static::$instance = new $n ( );
+		}
+		return self::$instance;
+	}
 
 }

@@ -2,21 +2,25 @@
 namespace rekin\core;
 
 use rekin\api\register;
+use rekin\debugger;
 use rekin\api\hashmap;
 
 class cache extends register {
 
-	public function __construct ( ) {
+	private $map;
+
+	private function __construct ( ) {
 		$this->map = new hashmap ( );
 	}
 
 	public function add ( $key , $value ) {
 		$this->map->put ( $key , $value );
+		debugger::info ( $this->tag ( ) , "Added Cache ".$key." [ Value : ".$this->map->get ( $key )." ]" );
 	}
 
 	public function get ( $key ) {
 		if ( $this->map->containKey ( $key ) ) {
-			$this->map->get ( $key );
+			return $this->map->get ( $key );
 		}
 	}
 
@@ -44,16 +48,31 @@ class cache extends register {
 		return $this->map->count ( );
 	}
 
+	public function memoryInfo ( ) {
+		return "<p>".$this->usedMemory ( )." ( ".$this->usedMemoryPercent ( )." )</p>";
+	}
 
 	public function usedMemory ( ) {
-		return "<p>".$this->memoryUsage ( false )."/".$this->memoryUsage ( true )."</p>";
+		return $this->memoryUsage ( false )." / ".$this->memoryUsage ( true );
+	}
+
+	public function usedMemoryPercent ( ) {
+		return @round ( ( memory_get_usage ( false ) / memory_get_usage ( true ) ) * 100 , 2 )."%";
 	}
 
 	private function memoryUsage ( $realusage = false ) {
 		$size = memory_get_usage ( $realusage );
-		$unit = array ( "b" , "kb" , "mb" , "gb" , "tb" , "pb" );
+		$unit = array ( "B" , "KB" , "MB" , "GB" , "TB" , "PB" );
 		$result = @round ( $size / pow ( 1024 , ( $i = floor ( log ( $size , 1024 ) ) ) ) , 2 )." ".$unit [ $i ];
 		return $result;
+	}
+
+	public final static function getInstance ( ) {
+		if ( ! static::$instance instanceof cache ) {
+			$n = get_called_class ( );
+			static::$instance = new $n ( );
+		}
+		return self::$instance;
 	}
 
 }
