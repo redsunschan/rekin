@@ -6,8 +6,8 @@ use rekin\api\static_object;
 class rekin extends static_object {
 
 	private static $debuggable;
-	private static $cache;
-	private static $config;
+	public static $cache;
+	public static $config;
 
 	public static function init ( $debuggable = null , $action = null ) {
 		static::debuggable ( $debuggable );
@@ -17,7 +17,7 @@ class rekin extends static_object {
 
 	public static function debuggable ( $boolean = null ) {
 		if ( null === $boolean ) {
-			if ( static::$debuggable === true || self::$debuggable === false ) {
+			if ( static::$debuggable === true || static::$debuggable === false ) {
 				return static::$debuggable;
 			} else {
 				return false;

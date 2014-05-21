@@ -9,14 +9,20 @@ class debugger {
 		if ( rekin::debuggable ( ) ) {
 			echo
 "<div class=\"debug_info\">
-	<h4>Rekin Debug</h4>
+	<h4>Rekin Debug [ INFO ]</h4>
+	<p>".$msg."</p>
 </div>
 ";
 		}
 	}
 
 	public static function notice ( $errstr , $errfile , $errline ) {
-
+		echo
+"<div class=\"debug_notice\">
+	<h4>Rekin Debug [ NOTICE ] ( From : ".$errfile." [  ] )</h4>
+	
+</div>
+";
 	}
 
 	public static function warn ( $errstr , $errfile , $errline ) {
@@ -28,7 +34,26 @@ class debugger {
 	}
 
 	private static function writeIn ( $errno , $errstr , $errfile , $errline ) {
-
+		$logfile = "Rekin_Log_".date ( "Y_m_d" ).".txt";
+		$content = null;
+		switch ( $errno ) {
+			case E_NOTICE:
+				break;
+			case E_USER_NOTICE:
+				break;
+			case E__WARNING:
+				break;
+			case E_USER_WARNING:
+				break;
+			case E_ERROR:
+				break;
+			case E_USER_ERROR:
+				break;
+		}
+		if ( ! file_exists ( $logfile ) ) {
+			fclose ( fopen ( $logfile , "x+" ) );
+		}
+		file_put_contents ( $logfile , $content );
 	}
 
 	public static function error_displayer ( $errno , $errstr , $errfile , $errline ) {

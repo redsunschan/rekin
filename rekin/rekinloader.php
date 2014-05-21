@@ -19,7 +19,7 @@ class rekinloader {
 				$i++;
 			}
 			while ( $i == count ( $patharray ) ) {
-				$path .= $patharray [ $i - 1 ].".class";
+				$path .= $patharray [ $i - 1 ].".php";
 				require_once $path;
 				break;
 			}
