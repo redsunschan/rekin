@@ -12,6 +12,7 @@ class rekin extends static_object {
 	public static $config;
 	public static $path;
 	public static $data;
+	public static $info;
 
 	public static function init ( $debuggable = null , $action = null ) {
 		gc_enable ( );
@@ -20,6 +21,7 @@ class rekin extends static_object {
 		static::$config = config::getInstance ( );
 		static::$path = path::getInstance ( );
 		static::$data = datalib::getInstance ( );
+		static::$info = rekininfo::getInstance ( );
 		static::$config->loadFile ( "system.config.php" );
 		if ( ! file_exists ( rekin::$config->get ( "default_log" ) ) ) {
 			fopen ( rekin::$config->get ( "default_log" ) , "x+" );

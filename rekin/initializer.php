@@ -6,4 +6,4 @@ require "rekinloader.php";
 rekinloader::init ( );
 
 set_error_handler ( "\\rekin\\debugger::error_displayer" , E_ALL );
-rekin::init ( true );
+rekin::init ( false );

@@ -17,10 +17,9 @@ class frontcontroller extends static_object {
 		$m = rekin::$cache->get ( "action" )."_model";
 		rekin::$cache->add ( "model" , new $m ( ) );
 		unset ( $m );
-		echo rekin::$cache->get ( "controller" );
-		//rekin::$cache->get ( "controller" )->loadModel ( rekin::$cache->get ( "model" ) );
-		//rekin::$cache->get ( "model" )->loadTemplate ( rekin::$cache->get ( "action" ) );
-		//rekin::$cache->get ( "controller" )->finish ( );
+		rekin::$cache->get ( "controller" )->loadModel ( rekin::$cache->get ( "model" ) );
+		rekin::$cache->get ( "controller" )->start ( );
+		rekin::$cache->get ( "controller" )->finish ( );
 	}
 
 }
