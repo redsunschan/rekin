@@ -145,7 +145,7 @@ class debugger {
 				static::warn ( $errstr , $errfile , $errline );
 				break;
 			default:
-				static::info ( $errfile." [ Line : ".$errline." ] " , $errstr );
+				static::notice ( $errstr , $errfile , $errline );
 				break;
 		}
 		static::writeIn ( $errno , $errstr , $errfile , $errline);

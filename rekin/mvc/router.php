@@ -1,5 +1,4 @@
 <?php
-
 namespace rekin\mvc;
 
 use rekin\api\static_object;
@@ -34,6 +33,7 @@ class router extends static_object {
 		} elseif ( null === $url ) {
 			rekin::$cache->add ( "action" , rekin::$config->get ( "default_action" ) );
 		}
+		unset ( $temp );
 	}
 
 }

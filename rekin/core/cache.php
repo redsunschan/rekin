@@ -9,7 +9,7 @@ class cache extends register {
 
 	private $map;
 
-	private function __construct ( ) {
+	protected function __construct ( ) {
 		$this->map = new hashmap ( );
 	}
 
@@ -65,14 +65,6 @@ class cache extends register {
 		$unit = array ( "B" , "KB" , "MB" , "GB" , "TB" , "PB" );
 		$result = @round ( $size / pow ( 1024 , ( $i = floor ( log ( $size , 1024 ) ) ) ) , 2 )." ".$unit [ $i ];
 		return $result;
-	}
-
-	public final static function getInstance ( ) {
-		if ( ! static::$instance instanceof cache ) {
-			$n = get_called_class ( );
-			static::$instance = new $n ( );
-		}
-		return self::$instance;
 	}
 
 }

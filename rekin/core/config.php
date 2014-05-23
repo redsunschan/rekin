@@ -9,12 +9,24 @@ class config extends register {
 
 	private $map;
 
-	private function __construct ( ) {
+	protected function __construct ( ) {
 		$this->map = new hashmap ( );
 	}
 
 	public function loadFile ( $file ) {
-		$this->loadFromSet ( require rekin::$path->config.$file );
+		if ( is_array ( $file ) ) {
+			foreach ( $file as $f ) {
+				$this->loadFromSet ( require rekin::$path->config.$f );
+			}
+		} elseif ( $file instanceof hashmap ) {
+			$temp = $file->getAll ( );
+			foreach ( $temp as $f ) {
+				$this->loadFromSet ( require rekin::$path->config.$f );
+			}
+			unset ( $temp );
+		} else {
+			$this->loadFromSet ( require rekin::$path->config.$file );
+		}
 	}
 
 	public function loadFromSet ( $set ) {
@@ -23,6 +35,7 @@ class config extends register {
 			foreach ( $temp as $item ) {
 				$this->add ( array_search ( $item , $temp ) , $item );
 			}
+			unset ( $temp );
 		} elseif ( is_array ( $set ) ) {
 			foreach ( $set as $item ) {
 				$this->add ( array_search ( $item , $set ) , $item );
@@ -63,14 +76,6 @@ class config extends register {
 
 	public function size ( ) {
 		return $this->map->count ( );
-	}
-
-	public final static function getInstance ( ) {
-		if ( ! static::$instance instanceof config ) {
-			$n = get_called_class ( );
-			static::$instance = new $n ( );
-		}
-		return self::$instance;
 	}
 
 }

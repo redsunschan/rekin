@@ -3,6 +3,7 @@ namespace rekin\core;
 
 use rekin\api\static_object;
 use rekin\mvc\router;
+use rekin\mvc\frontcontroller;
 
 class rekin extends static_object {
 
@@ -10,17 +11,21 @@ class rekin extends static_object {
 	public static $cache;
 	public static $config;
 	public static $path;
+	public static $data;
 
 	public static function init ( $debuggable = null , $action = null ) {
+		gc_enable ( );
 		static::debuggable ( $debuggable );
 		static::$cache = cache::getInstance ( );
 		static::$config = config::getInstance ( );
-		static::$path = new path ( );
+		static::$path = path::getInstance ( );
+		static::$data = datalib::getInstance ( );
 		static::$config->loadFile ( "system.config.php" );
 		if ( ! file_exists ( rekin::$config->get ( "default_log" ) ) ) {
 			fopen ( rekin::$config->get ( "default_log" ) , "x+" );
 		}
 		router::parse ( );
+		frontcontroller::start ( );
 	}
 
 	public static function debuggable ( $boolean = null ) {
@@ -34,12 +39,6 @@ class rekin extends static_object {
 			static::$debuggable = $boolean;
 			return static::$debuggable;
 		}
-	}
-
-	public static function gc ( ) {
-		gc_enable();
-		static::$cache->removeAll ( );
-		gc_disable();
 	}
 
 }
