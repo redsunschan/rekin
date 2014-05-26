@@ -6,6 +6,7 @@ use rekin\api\object;
 class path extends object {
 
 	public  $root,
+			$datalib,
 			$system,
 			$config,
 			$log,
@@ -18,6 +19,7 @@ class path extends object {
 	protected function __construct ( ) {
 		$this->root = dirname ( dirname ( __DIR__ ) )."/";
 		$this->system = $this->root."system/";
+		$this->datalib = $this->system."datalib/";
 		$this->log = $this->system."log/";
 		$this->config = $this->system."config/";
 		$this->module = $this->system."module/";

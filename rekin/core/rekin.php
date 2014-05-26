@@ -13,6 +13,13 @@ class rekin extends static_object {
 	public static $path;
 	public static $data;
 	public static $info;
+	
+	const name = "Rekin PHP Framework";
+	const version = "0.0.1";
+	const status = "DEV";
+	const author = "Redsuns S.H.Chan";
+	const copyright = "copyright © Denalo Entertainment Organization";
+	const code = "Halios";
 
 	public static function init ( $debuggable = null , $action = null ) {
 		gc_enable ( );
@@ -21,8 +28,8 @@ class rekin extends static_object {
 		static::$config = config::getInstance ( );
 		static::$path = path::getInstance ( );
 		static::$data = datalib::getInstance ( );
-		static::$info = rekininfo::getInstance ( );
 		static::$config->loadFile ( "system.config.php" );
+		static::$config->loadFile ( "seo.config.php" );
 		if ( ! file_exists ( rekin::$config->get ( "default_log" ) ) ) {
 			fopen ( rekin::$config->get ( "default_log" ) , "x+" );
 		}

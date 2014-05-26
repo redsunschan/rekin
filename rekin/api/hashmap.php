@@ -43,6 +43,12 @@ class hashmap extends object {
 		return false;
 	}
 
+	public function getKey ( $key ) {
+		if ( $this->containKey ( $key ) ) {
+			return array_search ( $this->map [ $key ] , $this->map );
+		}
+	}
+
 	public function remove ( $key ) {
 		if ( isset ( $this->map [ $key ] ) ) {
 			unset ( $this->map [ $key ] );

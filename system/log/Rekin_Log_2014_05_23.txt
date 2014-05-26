@@ -1,7 +1,7 @@
 ***********************************************************************************
 * Rekin Debugger [ WARNING ]
 ***********************************************************************************
-* Message : require_once(rekin/core/object.php): failed to open stream: No such file or directory
-* From : C:\Program Files (x86)\Zend\Apache2\htdocs\rpfh\rekin\rekinloader.php ( Line : 23 )
-* Time : 2014/05/23 20:05:45
+* Message : require(/storage/emulated/legacy/www/rekin/system/template/common/header.php): failed to open stream: No such file or directory
+* From : /storage/emulated/legacy/www/rekin/rekin/mvc/model.php ( Line : 34 )
+* Time : 2014/05/23 21:05:55
 ***********************************************************************************
