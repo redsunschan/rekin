@@ -38,12 +38,35 @@ class datalib extends object {
 				break;
 			case "xml":
 				$type = static::xml;
-				if ( ! file_exists ( rekin::$path->datalib."xmllib" ) ) {
-					mkdir ( rekin::$path->datalib."xmllib" );
+				if ( ! file_exists ( rekin::$path->datalib."xmllib/" ) ) {
+					mkdir ( rekin::$path->datalib."xmllib/" );
 				}
 				break;
 		}
 		debugger::info ( $this->tag ( ) , "Data Library Defined To : ".$this->type );
+	}
+	
+	//Still Designing and testing , PLEASE DONT USE!!!
+	public function load ( $database , $name ) {
+		
+		switch ( $this->type ) {
+			case mysql:
+				rekin::$cache->add ( "db" , new PDO ( ) );
+				break;
+			case php:
+				
+				break;
+			case phparray:
+				rekin::$cache->set ( $name , require rekin::$path->datalib."phplib/".$database."/".$name );
+				unlink ( rekin::$path->datalib."phplib/".$database."/".$name );
+				return rekin::$cache->get ( $name );
+				break;
+			case xml:
+				rekin::$cache->set ( "xmlreader" , simplexml_load_file ( rekin::$path->datalib."xmllib/".$database."/".$name ) );
+				return rekin::$cache->get ( "xmlreader" );
+				break;
+		}
+		
 	}
 	
 }
